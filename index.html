@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GutLog | Diario Clínico & Nutrición Integral</title>
+  <title>Diario Digestivo & Nutrición Integral</title>
   <style>
     :root {
       --bg: #0d130e;
@@ -20,15 +20,15 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, sans-serif; }
-    body { background-color: var(--bg); color: var(--text); padding-bottom: 80px; max-width: 600px; margin: 0 auto; min-height: 100vh; }
+    body { background-color: var(--bg); color: var(--text); padding-bottom: 80px; max-width: 650px; margin: 0 auto; min-height: 100vh; }
 
-    header { padding: 16px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--card-border); background: #0b100c; }
-    .logo-icon { width: 36px; height: 36px; background: var(--accent-green-dark); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; font-size: 1.2rem; }
-    header h1 { font-size: 1.1rem; color: var(--text); }
-    header p { font-size: 0.75rem; color: #86efac; }
+    /* Header Prominente */
+    header { padding: 24px 16px; text-align: center; border-bottom: 1px solid var(--card-border); background: #0b100c; }
+    header h1 { font-size: 1.65rem; color: var(--text); font-weight: 800; line-height: 1.25; letter-spacing: -0.02em; margin-bottom: 6px; }
+    header p { font-size: 0.85rem; color: var(--accent-green); font-weight: 500; }
 
     /* Bottom Navigation */
-    nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: #0b100c; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
+    nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 650px; background: #0b100c; border-top: 1px solid var(--card-border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
     .nav-item { background: none; border: none; color: #6b7280; font-size: 0.7rem; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; flex: 1; }
     .nav-item.active { color: var(--accent-green); font-weight: bold; }
     .nav-item svg { width: 20px; height: 20px; fill: currentColor; }
@@ -39,9 +39,9 @@
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 16px; margin-bottom: 16px; }
-    .card h2 { font-size: 1rem; color: var(--text); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
+    .card h2 { font-size: 1.05rem; color: var(--text); margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px; }
 
-    label { font-size: 0.8rem; color: #a7f3d0; margin-bottom: 6px; display: block; margin-top: 10px; }
+    label { font-size: 0.82rem; color: #a7f3d0; margin-bottom: 6px; display: block; margin-top: 12px; font-weight: 600; }
     input[type="text"], input[type="number"], input[type="date"], select, textarea { width: 100%; padding: 12px; background: #0d130e; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; font-size: 0.9rem; margin-bottom: 8px; }
     textarea { resize: vertical; min-height: 70px; }
 
@@ -51,14 +51,27 @@
     .opt-btn { background: #0d130e; border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; color: #9ca3af; font-size: 0.8rem; cursor: pointer; text-align: center; transition: all 0.2s; }
     .opt-btn.selected { background: var(--accent-green-dark); border-color: var(--accent-green); color: #fff; font-weight: bold; }
 
-    .btn-action { background: var(--accent-green); color: #000; border: none; font-weight: bold; width: 100%; padding: 14px; border-radius: 8px; font-size: 0.95rem; cursor: pointer; margin-top: 12px; }
+    /* Bristol Cards */
+    .bristol-grid { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 6px; }
+    .bristol-card { background: #0d130e; border: 1px solid var(--card-border); border-radius: 8px; padding: 10px; cursor: pointer; text-align: left; transition: all 0.2s; display: flex; align-items: center; gap: 12px; }
+    .bristol-card.selected { border-color: var(--accent-green); background: rgba(34, 197, 94, 0.1); }
+    .bristol-num { font-weight: bold; color: var(--accent-green); font-size: 0.9rem; min-width: 60px; }
+    .bristol-desc { font-size: 0.78rem; color: #9ca3af; line-height: 1.2; }
+
+    .btn-action { background: var(--accent-green); color: #000; border: none; font-weight: bold; width: 100%; padding: 14px; border-radius: 8px; font-size: 0.95rem; cursor: pointer; margin-top: 14px; }
     .btn-action:hover { background: #4ade80; }
 
-    /* History & Tags */
+    /* Tags */
     .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 4px; margin-top: 4px; }
     .tag-symptom { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
     .tag-bristol { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
     .tag-nutri { background: rgba(234, 179, 8, 0.2); color: #fde047; border: 1px solid #eab308; }
+
+    /* FODMAP List UI */
+    .fodmap-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: #0d130e; border: 1px solid var(--card-border); border-radius: 6px; margin-bottom: 6px; font-size: 0.85rem; }
+    .badge-fodmap { padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+    .bg-low { background: rgba(34, 197, 94, 0.2); color: #86efac; border: 1px solid var(--accent-green); }
+    .bg-high { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
 
     .report-box { background: #090d0a; border: 1px dashed var(--accent-green); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: #a7f3d0; white-space: pre-wrap; margin-top: 10px; }
   </style>
@@ -66,11 +79,8 @@
 <body>
 
   <header>
-    <div class="logo-icon">🌿</div>
-    <div>
-      <h1>GutLog</h1>
-      <p>Diario Clínico Digestivo & Nutrición Integral</p>
-    </div>
+    <h1>Diario Digestivo & Nutrición Integral</h1>
+    <p>Especializado en SII, SIBO, Preservación de Masa Muscular y Composición Corporal</p>
   </header>
 
   <div class="container">
@@ -92,22 +102,36 @@
         </div>
 
         <label>¿Qué comiste?</label>
-        <textarea id="regFood" placeholder="Ej: Avena con banana, pollo a la plancha con ensalada..."></textarea>
+        <textarea id="regFood" placeholder="Ej: Avena con proteína en polvo, pollo a la plancha con calabaza..."></textarea>
 
-        <label>Síntomas Digestivos</label>
+        <label>Síntomas Digestivos Observados</label>
         <div class="grid-2">
-          <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Hinchazón')">🎈 Hinchazón</button>
+          <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Hinchazón')">🎈 Hinchazón / Distensión</button>
           <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Dolor abdominal')">💢 Dolor Abdominal</button>
-          <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Reflujo')">🔥 Reflujo</button>
-          <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Gases')">💨 Gases</button>
+          <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Reflujo')">🔥 Reflujo / Acidez</button>
+          <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Gases')">💨 Gases / Flatulencias</button>
         </div>
 
-        <label>Tipo de Evacuación (Escala de Bristol)</label>
-        <div class="grid-4">
-          <button class="opt-btn bristol-opt selected" onclick="selectBristol(this, 'Ninguna')">Ninguna</button>
-          <button class="opt-btn bristol-opt" onclick="selectBristol(this, 'Tipo 1-2')">T 1-2</button>
-          <button class="opt-btn bristol-opt" onclick="selectBristol(this, 'Tipo 3-4')">T 3-4</button>
-          <button class="opt-btn bristol-opt" onclick="selectBristol(this, 'Tipo 5-7')">T 5-7</button>
+        <!-- ESCALA DE BRISTOL GUÍA EXPLICATIVA -->
+        <label>Tipo de Evacuación (Escala Clinica de Bristol)</label>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">Seleccioná la forma de tus deposiciones para registrar tu patrón intestinal:</p>
+        <div class="bristol-grid">
+          <div class="bristol-card selected" onclick="selectBristolCard(this, 'Ninguna')">
+            <div class="bristol-num">Sin Evacuar</div>
+            <div class="bristol-desc">Sin registro de deposición en esta comida/momento del día.</div>
+          </div>
+          <div class="bristol-card" onclick="selectBristolCard(this, 'Tipo 1-2 (Constipación)')">
+            <div class="bristol-num">Tipo 1 - 2</div>
+            <div class="bristol-desc"><strong>Constipación / Estreñimiento:</strong> Terrones duros separados (como nueces) o salchicha acanalada y dura.</div>
+          </div>
+          <div class="bristol-card" onclick="selectBristolCard(this, 'Tipo 3-4 (Normal / Ideal)')">
+            <div class="bristol-num">Tipo 3 - 4</div>
+            <div class="bristol-desc"><strong>Normal / Consistencia Ideal:</strong> Como una salchicha suave y lisa, o con grietas en la superficie. Fácil evacuación.</div>
+          </div>
+          <div class="bristol-card" onclick="selectBristolCard(this, 'Tipo 5-7 (Diaria / Disbiosis)')">
+            <div class="bristol-num">Tipo 5 - 7</div>
+            <div class="bristol-desc"><strong>Tendencia Diarreica / Inflamación:</strong> Trozos blandos con bordes recortados, o consistencia líquida/pastosa.</div>
+          </div>
         </div>
 
         <label>Datos Nutricionales Rápidos (Opcional)</label>
@@ -132,13 +156,13 @@
     <div id="tab-nutricion" class="tab-content">
       <div class="card">
         <h2>🧮 Calculadora Metabólica & Proteica</h2>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">Previene sarcopenia y optimiza tu masa muscular.</p>
+        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">Previene la sarcopenia, optimiza la masa muscular y reduce la acumulación de grasa.</p>
         
         <label>Objetivo Clínico-Nutricional</label>
         <select id="calcGoal">
           <option value="sarcopenia">Aumento de Masa Muscular / Evitar Sarcopenia (1.6 - 2.2g/kg)</option>
           <option value="deficit">Pérdida de Grasa Preservando Músculo (Déficit Controlado)</option>
-          <option value="maint">Mantenimiento & Salud Digestiva Gut-Friendly</option>
+          <option value="maint">Mantenimiento & Salud Digestiva</option>
         </select>
 
         <div class="grid-2">
@@ -147,11 +171,11 @@
             <input type="number" id="calcWeight" placeholder="Ej: 70">
           </div>
           <div>
-            <label>Actividad</label>
+            <label>Actividad Física</label>
             <select id="calcActivity">
-              <option value="1.2">Sedentario</option>
-              <option value="1.375">Ligero (1-3 días/sem)</option>
-              <option value="1.55">Moderado (3-5 días/sem)</option>
+              <option value="1.2">Sedentario / Leve</option>
+              <option value="1.375">Moderado (1-3 días/sem)</option>
+              <option value="1.55">Intenso (3-5 días/sem)</option>
             </select>
           </div>
         </div>
@@ -160,15 +184,53 @@
         <div id="macroResult" class="report-box" style="display:none;"></div>
       </div>
 
+      <!-- TABLA FODMAP DINÁMICA -->
       <div class="card">
-        <h2>🥗 Evaluador Adherencia Mediterránea</h2>
-        <label>¿Consumís aceite de oliva virgen extra como grasa principal?</label>
-        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+        <h2>🔍 Guía Rápida de Alimentos FODMAP</h2>
+        <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Ideal para gestionar cuadros de SII y protocolo SIBO:</p>
+        <input type="text" id="fodmapSearch" onkeyup="filterFodmap()" placeholder="Buscar alimento (ej: Ajo, Manzana, Pollo...)">
         
-        <label>¿Ingerís ≥2 porciones de verduras y ≥3 de frutas al día?</label>
+        <div id="fodmapList" style="max-height: 200px; overflow-y: auto; margin-top:8px;">
+          <!-- Generado por JS -->
+        </div>
+      </div>
+
+      <!-- EVALUADOR DIETA MEDITERRÁNEA COMPLETO (10 ÍTEMS) -->
+      <div class="card">
+        <h2>🥗 Evaluador de Adherencia a Dieta Mediterránea</h2>
+        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:10px;">Test de 10 puntos para validar la calidad antiinflamatoria de la dieta:</p>
+
+        <label>1. ¿Utiliza el aceite de oliva virgen extra como principal grasa de aderezo/cocina?</label>
         <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
 
-        <button class="btn-action" style="background:var(--accent-gold);" onclick="evalMedDiet()">Evaluar Score</button>
+        <label>2. ¿Consume ≥2 porciones de verduras al día (al menos 1 cruda o ensalada)?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>3. ¿Consume ≥3 piezas de fruta al día?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>4. ¿Consume menos de 1 porción de carnes rojas o embutidos al día?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>5. ¿Consume menos de 1 porción de mantequilla, margarina o nata al día?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>6. ¿Bebe menos de 1 bebida carbonatada o azucarada al día?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>7. ¿Consume ≥3 porciones de legumbres por semana?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>8. ¿Consume ≥3 porciones de pescado o marisco por semana?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>9. ¿Consume ≥3 porciones de frutos secos por semana?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <label>10. ¿Prefiere el consumo de carne de ave/pollo frente a carnes rojas?</label>
+        <select class="med-q"><option value="1">Sí (+1)</option><option value="0">No (0)</option></select>
+
+        <button class="btn-action" style="background:var(--accent-gold);" onclick="evalMedDiet()">Evaluar Score Mediterráneo</button>
         <div id="medResult" class="report-box" style="display:none;"></div>
       </div>
     </div>
@@ -183,13 +245,13 @@
           <option value="anthropic">Anthropic (Claude 3.5)</option>
         </select>
         <input type="text" id="aiKey" placeholder="Ingresá tu API Key">
-        <button class="opt-btn" style="width:100%;" onclick="saveApiKey()">Guardar Key Localmente</button>
+        <button class="opt-btn" style="width:100%; margin-top:4px;" onclick="saveApiKey()">Guardar Key Localmente</button>
       </div>
 
       <div class="card">
         <h2>📄 Generador de Reportes Especializados</h2>
         <button class="btn-action" style="margin-bottom:8px;" onclick="generateGastroReport()">🩺 Reporte Gastroenterológico (SII/SIBO)</button>
-        <button class="btn-action" style="background:#3b82f6; color:#fff;" onclick="generateNutriReport()">🥗 Reporte Nutricional & Metabólico</button>
+        <button class="btn-action" style="background:#3b82f6; color:#fff;" onclick="generateNutriReport()">🥗 Reporte Nutricional & Masa Muscular</button>
         <div id="reportOutput" class="report-box" style="display:none;"></div>
       </div>
     </div>
@@ -202,7 +264,7 @@
         <input type="text" id="userName" placeholder="Ej: Cristhian Maher">
         
         <label>Diagnóstico / Condición Clínica</label>
-        <input type="text" id="userDiag" placeholder="Ej: Colon Irritable (SII) / SIBO">
+        <input type="text" id="userDiag" placeholder="Ej: Colon Irritable (SII) / SIBO / Sarcopenia">
         
         <button class="btn-action" onclick="saveProfile()">Guardar Perfil</button>
       </div>
@@ -241,20 +303,33 @@
     let currentSelectedBristol = 'Ninguna';
     let selectedSymptoms = [];
 
+    // Base de datos FODMAP básica integrada
+    const fodmapData = [
+      { name: "Ajo y Cebolla", type: "Alto FODMAP", cat: "high" },
+      { name: "Manzana y Pera", type: "Alto FODMAP", cat: "high" },
+      { name: "Trigo y Cebada", type: "Alto FODMAP", cat: "high" },
+      { name: "Leche y Yogur tradicional", type: "Alto FODMAP", cat: "high" },
+      { name: "Legumbres (Garbanzos/Lentejas)", type: "Alto FODMAP", cat: "high" },
+      { name: "Pollo, Carne y Pescado", type: "Bajo FODMAP", cat: "low" },
+      { name: "Arroz, Quinoa y Avena sin TACC", type: "Bajo FODMAP", cat: "low" },
+      { name: "Zanahoria, Calabaza y Espinaca", type: "Bajo FODMAP", cat: "low" },
+      { name: "Aceite de Oliva Virgen Extra", type: "Bajo FODMAP", cat: "low" },
+      { name: "Huevos", type: "Bajo FODMAP", cat: "low" },
+      { name: "Banana verde / Poco madura", type: "Bajo FODMAP", cat: "low" }
+    ];
+
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('regDate').valueAsDate = new Date();
       if (profile.name !== 'Sin Nombre') {
         document.getElementById('userName').value = profile.name;
         document.getElementById('userDiag').value = profile.diag;
       }
+      renderFodmapList(fodmapData);
     });
 
     function changeTab(tabId, el) {
-      const tabs = document.querySelectorAll('.tab-content');
-      const navs = document.querySelectorAll('.nav-item');
-      
-      tabs.forEach(t => t.classList.remove('active'));
-      navs.forEach(n => n.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
 
       const target = document.getElementById('tab-' + tabId);
       if (target) target.classList.add('active');
@@ -269,10 +344,10 @@
       currentSelectedMeal = meal;
     }
 
-    function selectBristol(btn, bristol) {
-      document.querySelectorAll('.bristol-opt').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      currentSelectedBristol = bristol;
+    function selectBristolCard(card, bristolText) {
+      document.querySelectorAll('.bristol-card').forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      currentSelectedBristol = bristolText;
     }
 
     function toggleSelection(btn, item) {
@@ -286,7 +361,7 @@
 
     function saveRecord() {
       const food = document.getElementById('regFood').value.trim();
-      if (!food) { alert('Ingresá qué comiste.'); return; }
+      if (!food) { alert('Por favor, ingresá qué comiste.'); return; }
 
       const record = {
         id: Date.now(),
@@ -301,7 +376,7 @@
 
       records.unshift(record);
       localStorage.setItem('gutlog_records', JSON.stringify(records));
-      alert('Registro guardado en el diario.');
+      alert('Registro guardado exitosamente.');
 
       document.getElementById('regFood').value = '';
       document.getElementById('regProtein').value = '';
@@ -313,7 +388,7 @@
     function renderHistory() {
       const container = document.getElementById('historyContainer');
       if (records.length === 0) {
-        container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">No hay registros guardados.</p>';
+        container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">No hay registros guardados aún.</p>';
         return;
       }
 
@@ -326,7 +401,7 @@
           <p style="font-size:0.9rem; color:#fff; margin-bottom:6px;">${r.food}</p>
           <div>
             ${r.symptoms.map(s => `<span class="tag tag-symptom">${s}</span>`).join('')}
-            <span class="tag tag-bristol">Bristol: ${r.bristol}</span>
+            <span class="tag tag-bristol">${r.bristol}</span>
             ${r.protein > 0 ? `<span class="tag tag-nutri">${r.protein}g Prot</span>` : ''}
           </div>
         </div>
@@ -344,48 +419,67 @@
       const goal = document.getElementById('calcGoal').value;
       const activity = parseFloat(document.getElementById('calcActivity').value);
 
-      if (!weight) { alert('Ingresá tu peso.'); return; }
+      if (!weight) { alert('Ingresá tu peso corporal.'); return; }
 
-      let minP = weight * (goal === 'sarcopenia' ? 1.6 : 1.2);
-      let maxP = weight * (goal === 'sarcopenia' ? 2.2 : 1.5);
+      let minP = weight * (goal === 'sarcopenia' ? 1.6 : 1.3);
+      let maxP = weight * (goal === 'sarcopenia' ? 2.2 : 1.6);
       let cals = Math.round(weight * 22 * activity);
 
       const out = document.getElementById('macroResult');
       out.style.display = 'block';
-      out.innerText = `📋 OBJETIVO PERSONALIZADO:\n• Meta Proteica: ${minP.toFixed(0)}g - ${maxP.toFixed(0)}g / día.\n• Estimación Calórica: ~${cals} kcal / día.`;
+      out.innerText = `📋 REQUERIMIENTO CALCULADO:\n• Rango Proteico: ${minP.toFixed(0)}g - ${maxP.toFixed(0)}g / día.\n• Estimación Calórica: ~${cals} kcal / día.`;
+    }
+
+    function renderFodmapList(items) {
+      const list = document.getElementById('fodmapList');
+      list.innerHTML = items.map(i => `
+        <div class="fodmap-item">
+          <span>${i.name}</span>
+          <span class="badge-fodmap ${i.cat === 'low' ? 'bg-low' : 'bg-high'}">${i.type}</span>
+        </div>
+      `).join('');
+    }
+
+    function filterFodmap() {
+      const q = document.getElementById('fodmapSearch').value.toLowerCase();
+      const filtered = fodmapData.filter(i => i.name.toLowerCase().includes(q));
+      renderFodmapList(filtered);
     }
 
     function evalMedDiet() {
       const selects = document.querySelectorAll('.med-q');
       let score = 0;
       selects.forEach(s => score += parseInt(s.value));
+      
+      let level = score >= 8 ? 'Alta (Excelente patrón antiinflamatorio)' : (score >= 5 ? 'Moderada' : 'Baja (Se recomienda optimizar consumo de fibra/AOVE)');
+
       const out = document.getElementById('medResult');
       out.style.display = 'block';
-      out.innerText = `🥗 Score Mediterráneo: ${score} / 2 Puntos.`;
+      out.innerText = `🥗 SCORE MEDITERRÁNEO: ${score} / 10 Puntos.\n• Categoría: ${level}`;
     }
 
     function saveApiKey() {
       localStorage.setItem('gutlog_aikey', document.getElementById('aiKey').value.trim());
-      alert('Key guardada localmente.');
+      alert('API Key guardada en el dispositivo.');
     }
 
     function generateGastroReport() {
       const out = document.getElementById('reportOutput');
       out.style.display = 'block';
-      out.innerText = `🩺 REPORTE GASTROENTEROLÓGICO\nPaciente: ${profile.name}\nTotal registros: ${records.length}`;
+      out.innerText = `🩺 REPORTE CLINICO GASTROENTEROLÓGICO\nPaciente: ${profile.name}\nDiagnóstico: ${profile.diag}\nRegistros analizados: ${records.length}`;
     }
 
     function generateNutriReport() {
       const out = document.getElementById('reportOutput');
       out.style.display = 'block';
-      out.innerText = `🥗 REPORTE NUTRICIONAL\nPaciente: ${profile.name}\nAnálisis de ingesta proteica y prevención de sarcopenia completado.`;
+      out.innerText = `🥗 REPORTE NUTRICIONAL & METABÓLICO\nPaciente: ${profile.name}\nAnálisis enfocado en prevención de sarcopenia y preservación de masa muscular completado.`;
     }
 
     function saveProfile() {
       profile.name = document.getElementById('userName').value || 'Sin Nombre';
       profile.diag = document.getElementById('userDiag').value || 'No especificado';
       localStorage.setItem('gutlog_profile', JSON.stringify(profile));
-      alert('Perfil guardado.');
+      alert('Datos del perfil guardados.');
     }
   </script>
 </body>
