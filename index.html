@@ -61,7 +61,7 @@
     .btn-action { background: var(--accent-green); color: #000; border: none; font-weight: bold; width: 100%; padding: 14px; border-radius: 8px; font-size: 0.95rem; cursor: pointer; margin-top: 14px; }
     .btn-action:hover { background: #4ade80; }
 
-    /* Tags */
+    /* Tags & Badges */
     .tag { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 4px; margin-top: 4px; }
     .tag-symptom { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
     .tag-bristol { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid #3b82f6; }
@@ -74,6 +74,15 @@
     .bg-high { background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid #ef4444; }
 
     .report-box { background: #090d0a; border: 1px dashed var(--accent-green); padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.8rem; color: #a7f3d0; white-space: pre-wrap; margin-top: 10px; }
+
+    /* Guide Accordion / Content */
+    .edu-section { margin-bottom: 16px; border-bottom: 1px dashed var(--card-border); padding-bottom: 12px; }
+    .edu-section h3 { font-size: 0.95rem; color: var(--accent-green); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .edu-section p, .edu-section ul { font-size: 0.82rem; color: #d1d5db; line-height: 1.4; }
+    .edu-section ul { padding-left: 18px; margin-top: 6px; }
+    .edu-section li { margin-bottom: 4px; }
+
+    .disclaimer-box { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; padding: 12px; font-size: 0.78rem; color: #fca5a5; line-height: 1.4; margin-top: 16px; }
   </style>
 </head>
 <body>
@@ -112,8 +121,7 @@
           <button class="opt-btn symp-opt" onclick="toggleSelection(this, 'Gases')">💨 Gases / Flatulencias</button>
         </div>
 
-        <!-- ESCALA DE BRISTOL GUÍA EXPLICATIVA -->
-        <label>Tipo de Evacuación (Escala Clinica de Bristol)</label>
+        <label>Tipo de Evacuación (Escala Clínica de Bristol)</label>
         <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">Seleccioná la forma de tus deposiciones para registrar tu patrón intestinal:</p>
         <div class="bristol-grid">
           <div class="bristol-card selected" onclick="selectBristolCard(this, 'Ninguna')">
@@ -190,12 +198,10 @@
         <p style="font-size:0.75rem; color:var(--text-muted); margin-bottom:10px;">Ideal para gestionar cuadros de SII y protocolo SIBO:</p>
         <input type="text" id="fodmapSearch" onkeyup="filterFodmap()" placeholder="Buscar alimento (ej: Ajo, Manzana, Pollo...)">
         
-        <div id="fodmapList" style="max-height: 200px; overflow-y: auto; margin-top:8px;">
-          <!-- Generado por JS -->
-        </div>
+        <div id="fodmapList" style="max-height: 200px; overflow-y: auto; margin-top:8px;"></div>
       </div>
 
-      <!-- EVALUADOR DIETA MEDITERRÁNEA COMPLETO (10 ÍTEMS) -->
+      <!-- EVALUADOR DIETA MEDITERRÁNEA -->
       <div class="card">
         <h2>🥗 Evaluador de Adherencia a Dieta Mediterránea</h2>
         <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:10px;">Test de 10 puntos para validar la calidad antiinflamatoria de la dieta:</p>
@@ -251,15 +257,16 @@
       <div class="card">
         <h2>📄 Generador de Reportes Especializados</h2>
         <button class="btn-action" style="margin-bottom:8px;" onclick="generateGastroReport()">🩺 Reporte Gastroenterológico (SII/SIBO)</button>
-        <button class="btn-action" style="background:#3b82f6; color:#fff;" onclick="generateNutriReport()">🥗 Reporte Nutricional & Masa Muscular</button>
+        <button class="btn-action" style="background:#3b82f6; color:#fff; margin-bottom:8px;" onclick="generateNutriReport()">🥗 Reporte Nutricional & Masa Muscular</button>
+        <button class="opt-btn" style="width:100%; font-weight:bold;" onclick="copyReport()">📋 Copiar Reporte para el Médico</button>
         <div id="reportOutput" class="report-box" style="display:none;"></div>
       </div>
     </div>
 
-    <!-- PESTAÑA 5: PERFIL -->
+    <!-- PESTAÑA 5: PERFIL, GUÍA & EDUCACIÓN -->
     <div id="tab-perfil" class="tab-content">
       <div class="card">
-        <h2>👤 Perfil del Paciente</h2>
+        <h2>👤 Datos del Paciente</h2>
         <label>Nombre Completo</label>
         <input type="text" id="userName" placeholder="Ej: Cristhian Maher">
         
@@ -267,6 +274,78 @@
         <input type="text" id="userDiag" placeholder="Ej: Colon Irritable (SII) / SIBO / Sarcopenia">
         
         <button class="btn-action" onclick="saveProfile()">Guardar Perfil</button>
+      </div>
+
+      <!-- GUÍA DIDÁCTICA Y EDUCACIÓN CLÍNICA -->
+      <div class="card">
+        <h2>📚 Guía del Usuario & Educación Clínica</h2>
+        
+        <div class="edu-section">
+          <h3>📱 1. Cómo Usar esta App (Guía Rápida)</h3>
+          <p>Esta aplicación funciona como un **Diario de Control Dinámico**. Te permite correlacionar de manera científica lo que comés con la respuesta de tu sistema digestivo y metabólico:</p>
+          <ul>
+            <li><strong>Registrar:</strong> Anotá cada comida en tiempo real, asociando síntomas y el tipo de deposición según Bristol.</li>
+            <li><strong>Historial:</strong> Revisá patrones recurrentes. Si una comida te genera hinchazón constante, podrás detectarla fácilmente.</li>
+            <li><strong>Nutrición:</strong> Calculá tus metas proteicas para no perder músculo y usá el buscador FODMAP antes de armar tu plato.</li>
+            <li><strong>Reportes:</strong> Generá un resumen estructurado para llevar a tu próxima consulta médica o nutricional.</li>
+          </ul>
+        </div>
+
+        <div class="edu-section">
+          <h3>🌾 2. SII, SIBO e Inflamación Intestinal</h3>
+          <p>El **Sindrome de Intestino Irritable (SII)** y el **Sobrecrecimiento Bacteriano en Intestino Delgado (SIBO)** se caracterizan por hipersensibilidad visceral y sobre-fermentación bacteriana.</p>
+          <ul>
+            <li><strong>Mecanismo:</strong> Ciertos carbohidratos no se absorben bien en el intestino delgado y llegan intactos al colon o proliferan en el intestino delgado, produciendo gas (hidrógeno/metano), distensión y dolor.</li>
+            <li><strong>Objetivo:</strong> Reducir temporalmente la carga fermentativa para calmar la mucosa digestiva y restaurar la motilidad.</li>
+          </ul>
+        </div>
+
+        <div class="edu-section">
+          <h3>🚦 3. Alimentos FODMAP: ¿Qué son y por qué importan?</h3>
+          <p>FODMAP significa <em>Oligosacáridos, Disacáridos, Monosacáridos y Poliole Fermentables</em>. Son azúcares de cadena corta difíciles de digerir.</p>
+          <ul>
+            <li><strong>Bajos en FODMAP (Recomendados en fase aguda):</strong> Pollo, carne, pescado, huevo, arroz, calabaza, zanahoria, banana verde, aceite de oliva.</li>
+            <li><strong>Altos en FODMAP (A limitar en crisis):</strong> Ajo, cebolla, trigo, manzanas, legumbres, lácteos con lactosa.</li>
+            <li><strong>Estrategia:</strong> No es una dieta para siempre. Se realiza una fase corta de eliminación y luego reintroducción guiada.</li>
+          </ul>
+        </div>
+
+        <div class="edu-section">
+          <h3>🥗 4. La Dieta Mediterránea como Pilar Antiinflamatorio</h3>
+          <p>Una vez controlados los síntomas agudos, la **Dieta Mediterránea** es el estándar de oro para la salud intestinal y cardiovascular.</p>
+          <ul>
+            <li>Promueve la diversidad microbiótica gracias a los polifenoles del Aceite de Oliva Virgen Extra (AOVE).</li>
+            <li>Aporta grasas saludables (Omega 3) que reducen los marcadores inflamatorios sistémicos.</li>
+          </ul>
+        </div>
+
+        <div class="edu-section">
+          <h3>💪 5. Preservación Muscular & Prevención de la Sarcopenia</h3>
+          <p>El músculo esquelético no es solo para el movimiento; es un **órgano metabólico y endocrino fundamental**.</p>
+          <ul>
+            <li><strong>Sarcopenia:</strong> La pérdida progresiva de masa muscular y fuerza asociada a la edad o estados inflamatorios.</li>
+            <li><strong>Beneficios de mantener masa muscular:</strong> Mejora la sensibilidad a la insulina, mantiene el metabolismo basal elevado, fortalece la densidad ósea y protege la longevidad funcional.</li>
+            <li><strong>Déficit vs. Superávit:</strong> Si buscás perder grasa, un aporte alto de proteína evita que el cuerpo consuma su propio músculo.</li>
+          </ul>
+        </div>
+
+        <div class="edu-section">
+          <h3>🥩 6. Guía Práctica de Porciones de Proteína</h3>
+          <p>Para alcanzar tu meta diaria (ej. 1.6g a 2.2g por kg de peso), utilizá estas referencias visuales simples:</p>
+          <ul>
+            <li><strong>Pechuga de Pollo / Carne Magra / Pescado (100g):</strong> ~22 - 25g de proteína (tamaño de la palma de la mano).</li>
+            <li><strong>Huevos enteros (2 unidades grandes):</strong> ~12 - 13g de proteína.</li>
+            <li><strong>Lata de Atún al natural (120g drenado):</strong> ~26g de proteína.</li>
+            <li><strong>Tofu firme (100g):</strong> ~10 - 12g de proteína.</li>
+            <li><strong>Proteína en Polvo Whey / Vegana (1 scoop - 30g):</strong> ~20 - 24g de proteína.</li>
+          </ul>
+        </div>
+
+        <!-- DISCLAIMER MÉDICO -->
+        <div class="disclaimer-box">
+          <strong>⚠️ Descargo de Responsabilidad Clínica (Disclaimer):</strong><br>
+          Esta aplicación es una herramienta digital de auto-monitoreo diario diseñada exclusivamente con fines informativos, educativos y de registro personal. No constituye un diagnóstico médico, prescripción nutricional ni reemplaza el criterio, seguimiento o tratamiento brindado por un médico gastroenterólogo o un nutricionista matriculado. Ante cualquier síntoma persistente, dolor agudo o duda sobre tu salud, consultá siempre a un profesional de la salud calificado.
+        </div>
       </div>
     </div>
 
@@ -291,8 +370,8 @@
       Reportes/IA
     </button>
     <button class="nav-item" onclick="changeTab('perfil', this)">
-      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-      Perfil
+      <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+      Perfil/Guía
     </button>
   </nav>
 
@@ -303,7 +382,6 @@
     let currentSelectedBristol = 'Ninguna';
     let selectedSymptoms = [];
 
-    // Base de datos FODMAP básica integrada
     const fodmapData = [
       { name: "Ajo y Cebolla", type: "Alto FODMAP", cat: "high" },
       { name: "Manzana y Pera", type: "Alto FODMAP", cat: "high" },
@@ -466,13 +544,21 @@
     function generateGastroReport() {
       const out = document.getElementById('reportOutput');
       out.style.display = 'block';
-      out.innerText = `🩺 REPORTE CLINICO GASTROENTEROLÓGICO\nPaciente: ${profile.name}\nDiagnóstico: ${profile.diag}\nRegistros analizados: ${records.length}`;
+      out.innerText = `🩺 REPORTE CLINICO GASTROENTEROLÓGICO\nPaciente: ${profile.name}\nDiagnóstico: ${profile.diag}\nRegistros analizados: ${records.length}\n\nDetalle reciente:\n` + 
+        records.slice(0, 5).map(r => `- ${r.date} (${r.meal}): ${r.food} | Síntomas: ${r.symptoms.join(', ') || 'Ninguno'} | Bristol: ${r.bristol}`).join('\n');
     }
 
     function generateNutriReport() {
       const out = document.getElementById('reportOutput');
       out.style.display = 'block';
-      out.innerText = `🥗 REPORTE NUTRICIONAL & METABÓLICO\nPaciente: ${profile.name}\nAnálisis enfocado en prevención de sarcopenia y preservación de masa muscular completado.`;
+      out.innerText = `🥗 REPORTE NUTRICIONAL & METABÓLICO\nPaciente: ${profile.name}\nAnálisis enfocado en prevención de sarcopenia y preservación de masa muscular completado.\nPromedio proteico registrado: ${records.reduce((acc, r) => acc + parseFloat(r.protein||0), 0) / (records.length||1)}g/comida.`;
+    }
+
+    function copyReport() {
+      const out = document.getElementById('reportOutput');
+      if (!out.innerText) { alert('Primero generá un reporte.'); return; }
+      navigator.clipboard.writeText(out.innerText);
+      alert('Reporte copiado al portapapeles.');
     }
 
     function saveProfile() {
